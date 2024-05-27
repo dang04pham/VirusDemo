@@ -9,12 +9,24 @@ public abstract class LipidVirus {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private String getEnvelope() {
+	String getEnvelope() {
 		return envelope;
 	}
 	
-	private String getGenetics() {
+	String getGenetics() {
 		return genetics;
+	}
+	
+	String getInfectionProcess1() {
+		return infectionProcess1;
+	}
+
+	String getInfectionProcess2() {
+		return infectionProcess2;
+	}
+
+	String getInfectionProcess3() {
+		return infectionProcess3;
 	}
 
 }
