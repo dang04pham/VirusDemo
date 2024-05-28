@@ -4,9 +4,10 @@ public abstract class NonLipidVirus {
 	protected String capsid;
 	protected String genome;
 	protected String infectionProcess1, infectionProcess2, infectionProcess3; 
+	protected boolean isNonLipid;
 	
 	public NonLipidVirus() {
-		
+		isNonLipid = true;
 	}
 	
 	String getCapsid() {

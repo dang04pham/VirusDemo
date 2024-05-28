@@ -2,40 +2,25 @@ package hust.soict.globalict.virusDemo.viruses;
 
 public class CovidVirus extends LipidVirus{
 
-	private String envelopeInfo = "Envelope: Like many other viruses, SARS-CoV-2 is enveloped by a lipid bilayer derived from the host cell membrane. "
-			+ "Embedded within this envelope are spike (S) glycoproteins, membrane (M) glycoproteins, and envelope (E) proteins. The spike proteins give the virus its distinctive crown-like appearance under electron microscopes and play a crucial role in viral entry into host cells by binding to the ACE2 receptor on the surface of human cells.";
+	String structureInfo[] = {"1. Spike Protein (S): Facilitates entry into host cells.\n",
+            "2. Envelope Protein (E): Involved in virus assembly and release.\n",
+            "3. Membrane Protein (M): Gives the virus its shape and helps in virus assembly.\n",
+            "4. Nucleocapsid Protein (N): Binds to the RNA genome and helps in replication.\n"
+    };
 	
-	private String GenMatInfo = "The virus's genetic material, a single-stranded RNA, encodes various proteins necessary for replication and infection.";
-		
-	private String infectionProcessInfo1 = "Attachment and Entry\r\n"
-			+ "Spike protein binds to ACE2 receptor\r\n"
-			+ "Fusion of viral envelope with host cell membrane\r\n"
-			+ "Release of viral RNA into host cell cytoplasm";
-	
-	private String infectionProcessInfo2 = "Translation, Replication and Protein Synthesis\r\n"
-			+ "Translation of ORF1a and ORF1b into polyproteins\r\n"
-			+ "Cleavage into nonstructural proteins\r\n"
-			+ "Formation of replication-transcription complex (RTC)\r\n"
-			+ "Synthesis of negative-sense RNA\r\n"
-			+ "Production of new positive-sense RNA genomes and subgenomic RNAs\r\n"
-			+ "Translation of structural and accessory proteins";
-	
-	private String infectionProcessInfo3 = "Assembly and Release\r\n"
-			+ "- Assembly of virions in the ERGIC\r\n"
-			+ "- Budding into vesicles\r\n"
-			+ "- Release of new virions via exocytosis";
+	String infectionProcessInfo[] = {
+            "COVID-19 Infection Process:\n\n1. Virus Entry: The spike protein binds to ACE2 receptors.",
+            "2. RNA Release: Viral RNA is released into the host cell.",
+            "3. Translation: Viral proteins are produced.",
+            "4. Replication: New viral RNA is synthesized.",
+            "5. Assembly: New virions are assembled and released."
+	};
 	
 	public CovidVirus() {
 		super();
 		
-		envelope = envelopeInfo;
+		structure = structureInfo;
 		
-		genetics = GenMatInfo;
-		
-		infectionProcess1 = infectionProcessInfo1;
-		
-		infectionProcess2 = infectionProcessInfo2;
-		
-		infectionProcess3 = infectionProcessInfo3;
+		infectionProcess = infectionProcessInfo;
 	}
 }
