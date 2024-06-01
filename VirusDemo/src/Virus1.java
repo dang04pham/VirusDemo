@@ -40,7 +40,7 @@ public class Virus1 extends JFrame {
         helpButton.addActionListener(e -> showHelp());
         exitButton.addActionListener(e -> confirmExit());
         doQuiz.addActionListener(e -> loadApp());
-
+        
         buttonPanel.add(lipidVirusButton);
         buttonPanel.add(nonLipidVirusButton);
         buttonPanel.add(helpButton);

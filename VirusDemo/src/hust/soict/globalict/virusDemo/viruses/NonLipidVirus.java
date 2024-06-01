@@ -1,33 +1,35 @@
 package hust.soict.globalict.virusDemo.viruses;
 
 public abstract class NonLipidVirus {
-	protected String capsid;
-	protected String genome;
-	protected String infectionProcess1, infectionProcess2, infectionProcess3; 
-	protected boolean isNonLipid;
+	protected String name;
+	protected String geneticMaterial;
+	protected boolean isLipid;
+	protected double size;
 	
-	public NonLipidVirus() {
-		isNonLipid = true;
+	public NonLipidVirus(String name, String geneticMaterial, double size) {
+		this.name = name;
+		this.geneticMaterial = geneticMaterial;
+		this.isLipid = false;
+		this.size = size;
 	}
 	
-	String getCapsid() {
-		return capsid;	
+	public void showInfectionProcess() {
+		
 	}
 	
-	String getGenome() {
-		return genome;
-	}
-	
-	String getInfectionProcess1() {
-		return infectionProcess1;
-	}
+	public String getName() {
+        return name;
+    }
 
-	String getInfectionProcess2() {
-		return infectionProcess2;
-	}
+    public String getGeneticMaterial() {
+        return geneticMaterial;
+    }
 
-	String getInfectionProcess3() {
-		return infectionProcess3;
-	}
-
+    public double getSize() {
+        return size;
+    }
+    
+    public boolean isLipidEnveloped() {
+    	return false;
+    }
 }
