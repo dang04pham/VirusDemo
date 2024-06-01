@@ -57,6 +57,10 @@ public class NoroVirus extends NonLipidVirus{
 		System.out.println("-------------------------");
 	}
 	
+	public String getInfectionSteps(int i) {
+		return infectionProcessInfo[i];
+	}
+	
 //	public static void main(String[] args) {
 //		NoroVirus v = new NoroVirus();
 //		v.showStructure();

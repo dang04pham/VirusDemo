@@ -59,6 +59,10 @@ public class CovidVirus extends LipidVirus{
 		System.out.println("-------------------------");
 	}
 	
+	public String getInfectionSteps(int i) {
+		return infectionProcessInfo[i];
+	}
+	
 //	public static void main(String[] args) {
 //		CovidVirus v = new CovidVirus();
 //		v.showStructure();

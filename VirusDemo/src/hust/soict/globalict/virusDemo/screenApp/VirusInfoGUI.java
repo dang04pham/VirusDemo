@@ -19,7 +19,7 @@ public class VirusInfoGUI extends JFrame {
 	
 	public VirusInfoGUI() {
 		setTitle("Virus Investigation Application");
-		setSize(600, 600);
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		showMainMenu();
@@ -84,11 +84,32 @@ public class VirusInfoGUI extends JFrame {
 		
 		LipidVirus = new JButton("Lipid-Enveloped Virus");
 		LipidVirus.setPreferredSize(btnDimension);
-		LipidVirus.addActionListener(e -> showVirusSelection(true));
+		LipidVirus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getContentPane().remove(center);
+				center = new LipidVirusPanel();
+				getContentPane().add(center, BorderLayout.CENTER);
+				revalidate();
+				repaint();
+			}
+		});
 	
 		NonLipidVirus = new JButton("Non-Lipid-Enveloped Virus");
 		NonLipidVirus.setPreferredSize(btnDimension);
-		NonLipidVirus.addActionListener(e -> showVirusSelection(false));
+		NonLipidVirus.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				getContentPane().remove(center);
+				center = new NonLipidVirusPanel();
+				getContentPane().add(center, BorderLayout.CENTER);
+				revalidate();
+				repaint();
+			}
+		});
 		
 		Quiz = new JButton("Quiz");
 		Quiz.setPreferredSize(btnDimension);
@@ -101,125 +122,35 @@ public class VirusInfoGUI extends JFrame {
 		});
 		
 		exitButton = new JButton("Exit");
+		exitButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the application?", "Exit Confirmation",
+                JOptionPane.YES_NO_OPTION);
+				
+				if(confirm == JOptionPane.YES_OPTION) {
+					dispose();
+				}
+			}
+			
+		});
 		
 		center.add(LipidVirus);
 		center.add(NonLipidVirus);
 		center.add(Quiz);
+		center.add(exitButton);
 		
 		return center;
 	}
 
-	private void showVirusSelection(boolean isLipidEnveloped) {
-        getContentPane().removeAll();
-        add(createMenuBar(), BorderLayout.NORTH);
-        JPanel virusPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel(isLipidEnveloped ? "Lipid-Enveloped Viruses" : "Non-Lipid-Enveloped Viruses", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        virusPanel.add(titleLabel, BorderLayout.SOUTH);
-
-        JPanel buttonPanel = new JPanel();
-        JButton virus1Button = new JButton(isLipidEnveloped ? "HIV" : "Rotavirus");
-        JButton virus2Button = new JButton(isLipidEnveloped ? "COVID-19" : "Norovirus");
-        JButton backButton = new JButton("Back");
-
-        virus1Button.addActionListener(e -> showVirusDetails(isLipidEnveloped, true));
-        virus2Button.addActionListener(e -> showVirusDetails(isLipidEnveloped, false));
-        backButton.addActionListener(e -> showMainMenu());
-
-        buttonPanel.add(virus1Button);
-        buttonPanel.add(virus2Button);
-        buttonPanel.add(backButton);
-
-        virusPanel.add(buttonPanel, BorderLayout.CENTER);
-        add(virusPanel);
-
-        revalidate();
-        repaint();
-    }
 	
-	private void showVirusDetails(boolean isLipidEnveloped, boolean isFirstVirus) {
-        getContentPane().removeAll();
-        JPanel detailsPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel(isFirstVirus ? (isLipidEnveloped ? "HIV Structure" : "Rotavirus Structure") : (isLipidEnveloped ? "COVID-19 Structure" : "Norovirus Structure"), JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        detailsPanel.add(titleLabel, BorderLayout.NORTH);
-        
-        JTextArea detailsText = new JTextArea();
-        detailsText.setEditable(true);
-        detailsText.setFont(new Font("Arial", Font.PLAIN, 16));
-
-        if (isLipidEnveloped) {
-            if (isFirstVirus) {
-            	HIVStructureGUI hiv = new HIVStructureGUI();
-            	hiv.setVisible(true);
-            } else {
-            	Covid19StructureGUI covid19 = new Covid19StructureGUI();
-            	covid19.setVisible(true);
-            }
-        } else {
-            if (isFirstVirus) {
-                detailsText.setText("Rotavirus is a non-lipid-enveloped virus. \n It has a triple-layered protein coat and an RNA genome.");
-            } else {
-            }
-        }
-
-        detailsPanel.add(detailsText, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel();
-        JButton infectButton = new JButton("Show Infection Process");
-        JButton backButton = new JButton("Back");
-
-        infectButton.addActionListener(e -> showInfectionProcess(isLipidEnveloped, isFirstVirus));
-        backButton.addActionListener(e -> showVirusSelection(isLipidEnveloped));
-
-        buttonPanel.add(infectButton);
-        buttonPanel.add(backButton);
-
-        detailsPanel.add(buttonPanel, BorderLayout.SOUTH);
-        add(detailsPanel);
-
-        revalidate();
-        repaint();
-    }
-	
-	private void showInfectionProcess(boolean isLipidEnveloped, boolean isFirstVirus) {
-        getContentPane().removeAll();
-        JPanel infectionPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Infection Process", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        infectionPanel.add(titleLabel, BorderLayout.NORTH);
-
-        JTextArea infectionText = new JTextArea();
-        infectionText.setEditable(false);
-        infectionText.setFont(new Font("Arial", Font.PLAIN, 16));
-
-        if (isLipidEnveloped) {
-            infectionText.setText(isFirstVirus ? "HIV infection ..."
-                    : "COVID-19 infection ...");
-        } else {
-            infectionText.setText(isFirstVirus ? "Rotavirus infection ..."
-                    : "Norovirus infection ...");
-        }
-
-        infectionPanel.add(infectionText, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel();
-        JButton backButton = new JButton("Back");
-
-        backButton.addActionListener(e -> showVirusDetails(isLipidEnveloped, isFirstVirus));
-
-        buttonPanel.add(backButton);
-
-        infectionPanel.add(buttonPanel, BorderLayout.SOUTH);
-        add(infectionPanel);
-
-        revalidate();
-        repaint();
-    }
-
 	
 	public static void main(String[] args) {
-		VirusInfoGUI screen = new VirusInfoGUI();
-		screen.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+            VirusInfoGUI app = new VirusInfoGUI();
+            app.setVisible(true);
+        });
 	}
 }

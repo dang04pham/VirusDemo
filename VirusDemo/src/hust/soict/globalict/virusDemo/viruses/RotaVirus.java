@@ -63,9 +63,12 @@ public class RotaVirus extends NonLipidVirus{
 		System.out.println("-------------------------");
 	}
 	
-//	public static void main(String[] args) {
-//		RotaVirus v = new RotaVirus();
-//		v.showStructure();
-//		v.showInfectionProcess();
-//	}
+	public String getInfectionSteps(int i) {
+		return infectionProcessInfo[i];
+	}
+	
+	public static void main(String[] args) {
+		RotaVirus v = new RotaVirus();
+		
+	}
 }
