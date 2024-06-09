@@ -20,8 +20,6 @@ public class LipidVirusPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Covid19Frame frame = new Covid19Frame();
-				frame.setVisible(true);
 				
 			}
 			

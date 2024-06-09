@@ -2,12 +2,20 @@ package hust.soict.globalict.virusDemo.screenApp;
 
 import javax.swing.*;
 
+import hust.soict.globalict.virusDemo.GUIComponents.QuizApp;
+import hust.soict.globalict.virusDemo.virusComponents.AcidNu;
+import hust.soict.globalict.virusDemo.virusComponents.Capsid;
+import hust.soict.globalict.virusDemo.virusComponents.Envelope;
+import hust.soict.globalict.virusDemo.viruses.CovidVirus;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 public class VirusInfoGUI extends JFrame {
@@ -15,20 +23,24 @@ public class VirusInfoGUI extends JFrame {
 	JButton LipidVirus, NonLipidVirus, Quiz, exitButton; 
 	JMenuItem Help, Back;
 	JPanel center;
-	Dimension btnDimension = new Dimension(250, 30);
+	JPanel virusSelectionPanel, LipidVirusPanel, NonLipidVirusPanel, Covid19Panel, HIVPanel, NoroVirusPanel, RotaVirusPanel;
+	JPanel Covid19StructurePanel, Covid19InfectionPanel;
 	
 	public VirusInfoGUI() {
 		setTitle("Virus Investigation Application");
-		setSize(800, 600);
+		setSize(600, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		LipidVirusPanel = createLipidVirusPanel();
+		NonLipidVirusPanel = createNonLipidVirusPanel();
+		Covid19Panel = createCovid19Panel();
 		showMainMenu();
 	}
-	
+
 	void showMainMenu() {
 		getContentPane().removeAll();
 		add(createNorth(), BorderLayout.NORTH);
-		add(createCenter(), BorderLayout.CENTER);
+		add(createSouth(), BorderLayout.SOUTH);
 		revalidate();
 		repaint();
 	}
@@ -76,43 +88,38 @@ public class VirusInfoGUI extends JFrame {
 		return menuBar;
 	}
 	
-	JPanel createCenter() {
+	private void switchPanel(JPanel panel) {
+        center.removeAll();
+        center.add(panel, BorderLayout.CENTER);
+        center.revalidate();
+        center.repaint();
+    }
+	
+	JPanel createSouth() {
 		//getContentPane().removeAll();
 		center = new JPanel();
 		center.setSize(5, 5);
 		center.setLayout(new FlowLayout());
 		
 		LipidVirus = new JButton("Lipid-Enveloped Virus");
-		LipidVirus.setPreferredSize(btnDimension);
 		LipidVirus.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getContentPane().remove(center);
-				center = new LipidVirusPanel();
-				getContentPane().add(center, BorderLayout.CENTER);
-				revalidate();
-				repaint();
+				switchPanel(LipidVirusPanel);
 			}
 		});
 	
 		NonLipidVirus = new JButton("Non-Lipid-Enveloped Virus");
-		NonLipidVirus.setPreferredSize(btnDimension);
 		NonLipidVirus.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				getContentPane().remove(center);
-				center = new NonLipidVirusPanel();
-				getContentPane().add(center, BorderLayout.CENTER);
-				revalidate();
-				repaint();
+				switchPanel(NonLipidVirusPanel);
 			}
 		});
 		
 		Quiz = new JButton("Quiz");
-		Quiz.setPreferredSize(btnDimension);
 		Quiz.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -145,7 +152,123 @@ public class VirusInfoGUI extends JFrame {
 		return center;
 	}
 
+	private JPanel createLipidVirusPanel() {
+		JButton covidButton;
+		JButton HIVButton;
+		JPanel mainPanel;
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new FlowLayout());
+		covidButton = new JButton("SARS-CoV2");
+		covidButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(Covid19Panel);
+			}
+			
+		});
+		mainPanel.add(covidButton);
+		
+		HIVButton = new JButton("HIV");
+		HIVButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		
+		});
+		mainPanel.add(HIVButton);
+		
+		return mainPanel;
+	}
 	
+	private JPanel createCovid19Panel() {
+		JButton showOrigin;
+		JButton showStructure;
+		JPanel mainPanel;
+		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		
+		ArrayList<String> capsidProteins = new ArrayList<String>();
+		ArrayList<String> functionProteins = new ArrayList<String>();
+		Capsid capsid = new Capsid("helical nucleocapsid", capsidProteins, "The envelope and its spike proteins are key for virus attachment and entry into host cells");
+		AcidNu acidNu = new AcidNu("RNA", "Single-stranded RNA", "single, positive-sense RNA genome");
+		Envelope envelope = new Envelope("The envelope is also derived from the host cell membrane, containing viral proteins like the spike (S), envelope (E), and membrane (M) proteins", functionProteins, "The envelope is relatively fragile, making the virus sensitive to disinfectants, heat, and drying. However, the spike protein's affinity for the ACE2 receptor increases its infectivity");
+
+		
+		CovidVirus virus = new CovidVirus("SARS-CoV2", "Betacoronavirus", capsid, acidNu, true, 120, "spherical");
+		
+		showOrigin  = new JButton("Origin and history");
+		showOrigin.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(covid19StructurePanel())
+			}
+			
+		});
+		
+		mainPanel.add(showOrigin, BorderLayout.SOUTH);
+		
+		showStructure = new JButton("Show Structure");
+		showStructure.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(Covid19StructurePanel);
+			}
+			
+		});
+		mainPanel.add(showStructure);
+		
+		return mainPanel;
+	}
+	
+	
+	private JPanel createCovid19StructurePanel(CovidVirus virus) {
+		JPanel mainPanel;
+		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setText(virus.showStructureToString());
+		
+		return mainPanel;
+	}
+	
+	private JPanel createNonLipidVirusPanel() {
+		JButton NoroButton, RotaButton;
+		JPanel mainPanel;
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new FlowLayout());
+		NoroButton = new JButton("NoroVirus");
+		NoroButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+				
+		});
+		mainPanel.add(NoroButton);
+			
+		RotaButton = new JButton("RotaVirus");
+		RotaButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+			
+		});
+		mainPanel.add(RotaButton);
+		
+		return mainPanel;
+	}
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
