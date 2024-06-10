@@ -4,12 +4,15 @@ import javax.swing.*;
 
 import hust.soict.globalict.virusDemo.GUIComponents.Covid19StructureGUI;
 import hust.soict.globalict.virusDemo.GUIComponents.HIVStructureGUI;
+import hust.soict.globalict.virusDemo.GUIComponents.NoroVirusStructureGUI;
 import hust.soict.globalict.virusDemo.GUIComponents.QuizApp;
+import hust.soict.globalict.virusDemo.GUIComponents.RotaVirusStructureGUI;
 import hust.soict.globalict.virusDemo.virusComponents.AcidNu;
 import hust.soict.globalict.virusDemo.virusComponents.Capsid;
 import hust.soict.globalict.virusDemo.virusComponents.Envelope;
 import hust.soict.globalict.virusDemo.viruses.CovidVirus;
 import hust.soict.globalict.virusDemo.viruses.HIVVirus;
+import hust.soict.globalict.virusDemo.viruses.NoroVirus;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +40,8 @@ public class VirusInfoGUI extends JFrame {
 		NonLipidVirusPanel = createNonLipidVirusPanel();
 		Covid19Panel = createCovid19Panel();
 		HIVPanel = createHIVPanel();
+		NoroVirusPanel = createNoroVirusPanel();
+		RotaVirusPanel = createRotaVirusPanel();
 		showMainMenu();
 	}
 
@@ -300,6 +305,7 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				virus.showInfectionProcess();
 				JFrame frame = new JFrame("SARS-CoV2's Infection Process");
 				frame.setSize(1024, 300);
 				frame.setVisible(true);
@@ -431,6 +437,7 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				virus.showInfectionProcess();
 				JFrame frame = new JFrame("HIV's Infection Process");
 				frame.setSize(1024, 300);
 				frame.setVisible(true);
@@ -476,7 +483,7 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				switchPanel(NoroVirusPanel);
 			}
 				
 		});
@@ -487,7 +494,7 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				switchPanel(RotaVirusPanel);
 			}
 			
 		});
@@ -499,6 +506,264 @@ public class VirusInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showMainMenu();
+			}
+			
+		});
+		mainPanel.add(back);
+		
+		return mainPanel;
+	}
+	
+	private JPanel createNoroVirusPanel() {
+		JButton showOrigin;
+		JButton showStructure;
+		JButton showInfectionProcess;
+		JButton back;
+		JPanel mainPanel;
+		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new FlowLayout());
+		
+
+		ArrayList<String> capsidProteins = new ArrayList<String>();
+		Capsid capsid = new Capsid("icosahedral", capsidProteins, "the icosahedral shape provides stability in various environments, facilitating transmission through contaminated food and water");
+		AcidNu acidNu = new AcidNu("RNA", "Single-stranded RNA", "single, positive-sense RNA genome");
+		capsidProteins.add("protein VP1");
+		capsidProteins.add("structural protein VP2");
+		NoroVirus virus = new NoroVirus("Norovirus", "Calicivirus", capsid, acidNu, false, 40, "icosahedral");
+		
+		showOrigin  = new JButton("Origin and history");
+		showOrigin.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("HIV's Origin and History");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText("Discovery: Norovirus was first identified in 1972 following an outbreak in Norwalk, Ohio.\r\n"
+						+ "Virus Family: It belongs to the Caliciviridae family and is a non-enveloped, single-stranded RNA virus.\r\n"
+						+ "Transmission: Spreads via the fecal-oral route, contaminated food or water, person-to-person contact, and surfaces.\r\n"
+						+ "Symptoms: Causes acute gastroenteritis with vomiting, diarrhea, stomach pain, and nausea, typically lasting 1-3 days.\r\n"
+						+ "Outbreak Settings: Common in closed environments like cruise ships, hospitals, schools, and nursing homes.\r\n"
+						+ "Genetic Diversity: High genetic variability helps the virus evade immunity, with GII.4 being a prevalent strain.\r\n"
+						+ "Global Impact: Leading cause of gastroenteritis, responsible for 685 million cases annually and significant healthcare costs.\r\n"
+						+ "Prevention: Key methods include handwashing, proper food handling, sanitation, and outbreak management. Vaccine development is ongoing.");
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		
+		mainPanel.add(showOrigin, BorderLayout.SOUTH);
+		
+		showStructure = new JButton("Show Structure");
+		showStructure.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				virus.showStructure();
+				JFrame frame = new JFrame("Norovirus's Structure");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JButton structureGUI = new JButton("Struture Model");
+				structureGUI.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						NoroVirusStructureGUI modelFrame = new NoroVirusStructureGUI();
+						modelFrame.setVisible(true);
+						modelFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					}
+					
+				});
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.structureToString()); 
+				
+				main.add(new JScrollPane(area), BorderLayout.CENTER);
+				main.add(structureGUI, BorderLayout.SOUTH);
+				
+			}
+			
+		});
+		mainPanel.add(showStructure);
+		
+		showInfectionProcess = new JButton("Show Infection Process");
+		showInfectionProcess.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				virus.showInfectionProcess();
+				JFrame frame = new JFrame("Norovirus's Infection Process");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.infectionProcessToString()); 
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		mainPanel.add(showInfectionProcess);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(NonLipidVirusPanel);
+			}
+			
+		});
+		mainPanel.add(back);
+		
+		return mainPanel;
+	}
+	
+	private JPanel createRotaVirusPanel() {
+		JButton showOrigin;
+		JButton showStructure;
+		JButton showInfectionProcess;
+		JButton back;
+		JPanel mainPanel;
+		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new FlowLayout());
+		
+
+		ArrayList<String> capsidProteins = new ArrayList<String>();
+		Capsid capsid = new Capsid("triple-layered icosahedral", capsidProteins, "the triple-layered capsid provides robustness and protection for the viral genome and enzymes required for replication");
+		AcidNu acidNu = new AcidNu("RNA", "Double-stranded RNA", "11 segments of double-stranded RNA");
+		capsidProteins.add("glycoprotein VP7");
+		capsidProteins.add("spike protein VP4");
+		capsidProteins.add("protein VP6");
+		capsidProteins.add("protein VP2");
+		NoroVirus virus = new NoroVirus("Rotavirus", "Reovirus", capsid, acidNu, false, 70, "icosahedral");
+		
+		showOrigin  = new JButton("Origin and history");
+		showOrigin.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Rotavirus's Origin and History");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText("Discovery: Rotavirus was first discovered in 1973 by Ruth Bishop and her team in Melbourne, Australia.\r\n"
+						+ "Virus Family: It is a double-stranded RNA virus from the Reoviridae family.\r\n"
+						+ "Transmission: Spreads via the fecal-oral route, through contaminated hands, surfaces, objects, food, and water.\r\n"
+						+ "Symptoms: Causes severe gastroenteritis with diarrhea, vomiting, fever, and abdominal pain, especially in young children.\r\n"
+						+ "Global Impact: Leading cause of severe diarrhea in children, causing 215,000 deaths annually and significant morbidity.\r\n"
+						+ "Prevention: Vaccines (Rotarix and RotaTeq) are highly effective; hygiene and sanitation practices are also important.\r\n"
+						+ "Seasonality: Peaks in winter in temperate climates, year-round in tropical regions.\r\n"
+						+ "Genetic Diversity: High genetic variability due to genome reassortment, allowing for new strains to emerge.");
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		
+		mainPanel.add(showOrigin, BorderLayout.SOUTH);
+		
+		showStructure = new JButton("Show Structure");
+		showStructure.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				virus.showStructure();
+				JFrame frame = new JFrame("Rotavirus's Structure");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JButton structureGUI = new JButton("Struture Model");
+				structureGUI.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						RotaVirusStructureGUI modelFrame = new RotaVirusStructureGUI();
+						modelFrame.setVisible(true);
+						modelFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					}
+					
+				});
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.structureToString()); 
+				
+				main.add(new JScrollPane(area), BorderLayout.CENTER);
+				main.add(structureGUI, BorderLayout.SOUTH);
+				
+			}
+			
+		});
+		mainPanel.add(showStructure);
+		
+		showInfectionProcess = new JButton("Show Infection Process");
+		showInfectionProcess.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				virus.showInfectionProcess();
+				JFrame frame = new JFrame("Rotavirus's Infection Process");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.infectionProcessToString()); 
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		mainPanel.add(showInfectionProcess);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(NonLipidVirusPanel);
 			}
 			
 		});

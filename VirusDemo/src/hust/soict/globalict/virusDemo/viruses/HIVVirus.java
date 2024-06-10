@@ -15,11 +15,6 @@ public class HIVVirus extends LipidVirus {
 	
 	public HIVVirus(String name, String type, Capsid capsid, AcidNu acidNu, Envelope envelope, boolean isLipidEnveloped, int size, String shape) {
 		super(name, type, capsid, acidNu, envelope, isLipidEnveloped, size, shape);
-		capsidProteins.add("p24 proteins");
-		capsidProteins.add("gp120 glycoproteins");
-		capsidProteins.add("gp41 glycoproteins");
-		functionProteins.add("gp120: Facilitates binding to the CD4 receptor and co-receptors (CCR5 or CXCR4) on host cells");
-		functionProteins.add("gp41: Mediates the fusion of the viral envelope with the host cell membrane, allowing entry");
 	}
 	
 	public void attach() {
