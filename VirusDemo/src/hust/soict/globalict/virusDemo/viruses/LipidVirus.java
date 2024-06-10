@@ -25,8 +25,22 @@ public abstract class LipidVirus extends Virus {
 		System.out.println("SIZE: " + getSize());	
 	}
 	
-	public String showStructureToString() {
-		String str;
-		return str;
+	public String structureToString() {
+		String text = 
+				  "TYPE:" + getType() + "\r\n"
+				+ "ACID NUCLEIC: \r\n"
+				+ "	Type: " + acidNu.getType() + "\r\n"
+				+ "	Structure: " + acidNu.getStructure() + "\r\n"
+				+ "	Genome: " + acidNu.getGenome() + "\r\n"
+				+ "CAPSID: \r\n"
+				+ "	Shape: " + capsid.getShape() + "\r\n"
+				+ "	Comprises of: " + capsid.getProteins() + "\r\n"
+				+ "	Key features:" + capsid.getFeatures() + "\r\n"
+				+ "ENVELOPE: \r\n"
+				+ "	Envelope Composition: " + envelope.getComposition() + "\r\n"
+				+ "	Function: " + envelope.getFunction() + "\r\n"
+				+ "	Stability: " + envelope.getStability() + "\r\n"
+				+ "SIZE: " + getSize();
+		return text;
 	}
 }

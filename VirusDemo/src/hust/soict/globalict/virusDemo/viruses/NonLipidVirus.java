@@ -16,4 +16,19 @@ public abstract class NonLipidVirus extends Virus {
 		getCapsid().displayCapsid();
 		System.out.println("SIZE: " + getSize());	
 	}
+	
+	public String structureToString() {
+		String text = 
+				  "TYPE:" + getType() + "\r\n"
+				+ "ACID NUCLEIC: \r\n"
+				+ "	Type: " + acidNu.getType() + "\r\n"
+				+ "	Structure: " + acidNu.getStructure() + "\r\n"
+				+ "	Genome: " + acidNu.getGenome() + "\r\n"
+				+ "CAPSID: \r\n"
+				+ "	Shape: " + capsid.getShape() + "\r\n"
+				+ "	Comprises of: " + capsid.getProteins() + "\r\n"
+				+ "	Key features:" + capsid.getFeatures() + "\r\n"
+				+ "SIZE: " + getSize();
+		return text;
+	}
 }

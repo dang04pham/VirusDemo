@@ -14,6 +14,7 @@ public abstract class Virus {
 	protected int size;
 	protected String shape;
 	protected ArrayList<String> diseases;
+	protected String origin;
 	
 	public Virus(String name, String type, Capsid capsid, AcidNu acidNu, boolean isLipidEnveloped, int size, String shape) {
 		this.name = name;

@@ -2,11 +2,14 @@ package hust.soict.globalict.virusDemo.screenApp;
 
 import javax.swing.*;
 
+import hust.soict.globalict.virusDemo.GUIComponents.Covid19StructureGUI;
+import hust.soict.globalict.virusDemo.GUIComponents.HIVStructureGUI;
 import hust.soict.globalict.virusDemo.GUIComponents.QuizApp;
 import hust.soict.globalict.virusDemo.virusComponents.AcidNu;
 import hust.soict.globalict.virusDemo.virusComponents.Capsid;
 import hust.soict.globalict.virusDemo.virusComponents.Envelope;
 import hust.soict.globalict.virusDemo.viruses.CovidVirus;
+import hust.soict.globalict.virusDemo.viruses.HIVVirus;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +27,6 @@ public class VirusInfoGUI extends JFrame {
 	JMenuItem Help, Back;
 	JPanel center;
 	JPanel virusSelectionPanel, LipidVirusPanel, NonLipidVirusPanel, Covid19Panel, HIVPanel, NoroVirusPanel, RotaVirusPanel;
-	JPanel Covid19StructurePanel, Covid19InfectionPanel;
 	
 	public VirusInfoGUI() {
 		setTitle("Virus Investigation Application");
@@ -34,6 +36,7 @@ public class VirusInfoGUI extends JFrame {
 		LipidVirusPanel = createLipidVirusPanel();
 		NonLipidVirusPanel = createNonLipidVirusPanel();
 		Covid19Panel = createCovid19Panel();
+		HIVPanel = createHIVPanel();
 		showMainMenu();
 	}
 
@@ -155,9 +158,12 @@ public class VirusInfoGUI extends JFrame {
 	private JPanel createLipidVirusPanel() {
 		JButton covidButton;
 		JButton HIVButton;
+		JButton back;
 		JPanel mainPanel;
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new FlowLayout());
+		
 		covidButton = new JButton("SARS-CoV2");
 		covidButton.addActionListener(new ActionListener() {
 
@@ -167,6 +173,7 @@ public class VirusInfoGUI extends JFrame {
 			}
 			
 		});
+		
 		mainPanel.add(covidButton);
 		
 		HIVButton = new JButton("HIV");
@@ -174,12 +181,22 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				switchPanel(HIVPanel);
 			}
 		
 		});
 		mainPanel.add(HIVButton);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showMainMenu();
+			}
+			
+		});
+		mainPanel.add(back);
 		
 		return mainPanel;
 	}
@@ -187,26 +204,52 @@ public class VirusInfoGUI extends JFrame {
 	private JPanel createCovid19Panel() {
 		JButton showOrigin;
 		JButton showStructure;
+		JButton showInfectionProcess;
+		JButton back;
 		JPanel mainPanel;
 		
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setLayout(new FlowLayout());
 		
 		ArrayList<String> capsidProteins = new ArrayList<String>();
 		ArrayList<String> functionProteins = new ArrayList<String>();
 		Capsid capsid = new Capsid("helical nucleocapsid", capsidProteins, "The envelope and its spike proteins are key for virus attachment and entry into host cells");
 		AcidNu acidNu = new AcidNu("RNA", "Single-stranded RNA", "single, positive-sense RNA genome");
 		Envelope envelope = new Envelope("The envelope is also derived from the host cell membrane, containing viral proteins like the spike (S), envelope (E), and membrane (M) proteins", functionProteins, "The envelope is relatively fragile, making the virus sensitive to disinfectants, heat, and drying. However, the spike protein's affinity for the ACE2 receptor increases its infectivity");
-
-		
-		CovidVirus virus = new CovidVirus("SARS-CoV2", "Betacoronavirus", capsid, acidNu, true, 120, "spherical");
+		CovidVirus virus = new CovidVirus("SARS-CoV2", "Betacoronavirus", capsid, acidNu, envelope, true, 120, "spherical");
+		capsidProteins.add("spike (S) proteins");
+		capsidProteins.add("membrane (M) proteins");
+		capsidProteins.add("envelope (E) proteins");
+		functionProteins.add("Spike Protein (S): Binds to the ACE2 receptor on host cells");
+		functionProteins.add("Envelope Protein (E): Involved in virus assembly and release");
+		functionProteins.add("Membrane Protein (M): Helps maintain the structure of the virion");
 		
 		showOrigin  = new JButton("Origin and history");
 		showOrigin.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchPanel(covid19StructurePanel())
+				JFrame frame = new JFrame("SARS-CoV2's Origin and History");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText("Initial Detection: SARS-CoV-2 was first identified in December 2019 in Wuhan, China, linked to a seafood market.\r\n"
+						+ "Global Spread: The virus spread rapidly, leading the WHO to declare a pandemic in March 2020.\r\n"
+						+ "Virus Characteristics: SARS-CoV-2 is a betacoronavirus, genetically similar to bat coronaviruses, indicating a zoonotic origin, potentially via an intermediate host like pangolins.\r\n"
+						+ "Origin Theories:\r\n"
+						+ "  - Zoonotic Spillover: The predominant theory is natural transmission from animals to humans.\r\n"
+						+ "  - Lab Leak Hypothesis: A less supported theory suggests accidental release from a laboratory.\r\n"
+						+ "Phylogenetic Studies: These track the virus's mutations and identify variants such as Alpha, Delta, and Omicron.\r\n"
+						+ "Ongoing Research: Efforts continue to understand the virus's origins and prevent future pandemics, focusing on improved surveillance and rapid response to emerging infectious diseases."); 
+				
+				frame.add(new JScrollPane(area));
 			}
 			
 		});
@@ -218,30 +261,213 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switchPanel(Covid19StructurePanel);
+				virus.showStructure();
+				JFrame frame = new JFrame("SARS-CoV2's Structure");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JButton structureGUI = new JButton("Struture Model");
+				structureGUI.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Covid19StructureGUI modelFrame = new Covid19StructureGUI();
+						modelFrame.setVisible(true);
+						modelFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					}
+					
+				});
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.structureToString()); 
+				
+				main.add(new JScrollPane(area), BorderLayout.CENTER);
+				main.add(structureGUI, BorderLayout.SOUTH);
+				
 			}
 			
 		});
 		mainPanel.add(showStructure);
 		
+		showInfectionProcess = new JButton("Show Infection Process");
+		showInfectionProcess.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("SARS-CoV2's Infection Process");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.infectionProcessToString()); 
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		mainPanel.add(showInfectionProcess);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(LipidVirusPanel);
+			}
+			
+		});
+		mainPanel.add(back);
+		
 		return mainPanel;
 	}
 	
-	
-	private JPanel createCovid19StructurePanel(CovidVirus virus) {
+	private JPanel createHIVPanel() {
+		JButton showOrigin;
+		JButton showStructure;
+		JButton showInfectionProcess;
+		JButton back;
 		JPanel mainPanel;
 		
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setText(virus.showStructureToString());
+		mainPanel.setLayout(new FlowLayout());
+		
+		ArrayList<String> capsidProteins = new ArrayList<String>();
+		ArrayList<String> functionProteins = new ArrayList<String>();
+		Capsid capsid = new Capsid("conical", capsidProteins, "The capsid is crucial for protecting the viral RNA and enzymes like reverse transciptase, integrase, and protease");
+		AcidNu acidNu = new AcidNu("RNA", "Single-stranded RNA", "two identical copies of single-stranded, positive-sense RNA");
+		Envelope envelope = new Envelope("The envelope is derived from the host cell membrane and is studded with viral glycoproteins, primarily gp120 and gp41.", functionProteins, "The envelope makes HIV more susceptible to environmental factors like detergents, heat, and drying, which can inactivate the virus");
+		HIVVirus virus = new HIVVirus("HIV", "Retrovirus", capsid, acidNu, envelope, true, 120, "spherical");
+		capsidProteins.add("p24 proteins");
+		capsidProteins.add("gp120 glycoproteins");
+		capsidProteins.add("gp41 glycoproteins");
+		functionProteins.add("gp120: Facilitates binding to the CD4 receptor and co-receptors (CCR5 or CXCR4) on host cells");
+		functionProteins.add("gp41: Mediates the fusion of the viral envelope with the host cell membrane, allowing entry");
+		
+		showOrigin  = new JButton("Origin and history");
+		showOrigin.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("HIV's Origin and History");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText("Discovery: HIV was identified in the early 1980s during outbreaks among various populations, including gay men and hemophiliacs.\r\n"
+						+ "Origins: HIV-1 likely originated from a chimpanzee virus (SIVcpz) in Central Africa, while HIV-2 likely came from a related virus in West Africa.\r\n"
+						+ "Zoonotic Transmission: HIV crossed to humans through exposure to infected primate blood, possibly during hunting or butchering activities.\r\n"
+						+ "Epidemic Spread: HIV spread rapidly through sexual contact, blood transfusions, and shared needles, exacerbated by lack of awareness and stigma.\r\n"
+						+ "Pandemic Impact: HIV/AIDS has caused millions of deaths globally and disproportionately affects vulnerable populations.\r\n"
+						+ "Scientific Advances**: Antiretroviral therapy (ART) has transformed HIV from a deadly disease to a manageable condition, alongside prevention strategies like condom use and PrEP.\r\n"
+						+ "Challenges: Stigma, discrimination, and access to treatment and prevention services remain challenges in combating HIV/AIDS.\r\n"
+						+ "Global Response: Coordinated efforts by governments, organizations, healthcare providers, and activists are ongoing to address the HIV/AIDS epidemic and its impacts.");
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		
+		mainPanel.add(showOrigin, BorderLayout.SOUTH);
+		
+		showStructure = new JButton("Show Structure");
+		showStructure.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				virus.showStructure();
+				JFrame frame = new JFrame("HIV's Structure");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JButton structureGUI = new JButton("Struture Model");
+				structureGUI.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						HIVStructureGUI modelFrame = new HIVStructureGUI();
+						modelFrame.setVisible(true);
+						modelFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					}
+					
+				});
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.structureToString()); 
+				
+				main.add(new JScrollPane(area), BorderLayout.CENTER);
+				main.add(structureGUI, BorderLayout.SOUTH);
+				
+			}
+			
+		});
+		mainPanel.add(showStructure);
+		
+		showInfectionProcess = new JButton("Show Infection Process");
+		showInfectionProcess.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("HIV's Infection Process");
+				frame.setSize(1024, 300);
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				
+				JPanel main = new JPanel();
+				main.setLayout(new BorderLayout());
+				frame.add(main);
+				
+				JTextArea area = new JTextArea();
+				area.setEditable(false);
+				area.setText(virus.infectionProcessToString()); 
+				
+				frame.add(new JScrollPane(area));
+			}
+			
+		});
+		mainPanel.add(showInfectionProcess);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchPanel(LipidVirusPanel);
+			}
+			
+		});
+		mainPanel.add(back);
 		
 		return mainPanel;
 	}
 	
+	
 	private JPanel createNonLipidVirusPanel() {
 		JButton NoroButton, RotaButton;
+		JButton back;
 		JPanel mainPanel;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new FlowLayout());
@@ -266,6 +492,17 @@ public class VirusInfoGUI extends JFrame {
 			
 		});
 		mainPanel.add(RotaButton);
+		
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showMainMenu();
+			}
+			
+		});
+		mainPanel.add(back);
 		
 		return mainPanel;
 	}
