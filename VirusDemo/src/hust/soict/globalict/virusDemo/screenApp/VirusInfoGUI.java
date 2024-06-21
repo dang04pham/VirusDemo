@@ -24,35 +24,65 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+//main GUI application using JavaSwing
 public class VirusInfoGUI extends JFrame {
 	
+	//buttons
 	JButton LipidVirus, NonLipidVirus, Quiz, exitButton; 
+	
+	//menu bar
 	JMenuItem Help, Back;
+	
+	//for main content
 	JPanel center;
+	
 	JPanel virusSelectionPanel, LipidVirusPanel, NonLipidVirusPanel, Covid19Panel, HIVPanel, NoroVirusPanel, RotaVirusPanel;
 	
 	public VirusInfoGUI() {
-		setTitle("Virus Investigation Application");
-		setSize(600, 400);
+		//set title for app
+		setTitle("Virus Investigation Application"); 
+		
+		//set icon
+		Image icon = Toolkit.getDefaultToolkit().getImage("F:\\eclipse_workspace\\VirusDemo\\src\\virus_app_logo.jpg");  
+		setIconImage(icon);
+		
+		//window size
+		setSize(800, 600);
+		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		LipidVirusPanel = createLipidVirusPanel();
-		NonLipidVirusPanel = createNonLipidVirusPanel();
-		Covid19Panel = createCovid19Panel();
-		HIVPanel = createHIVPanel();
-		NoroVirusPanel = createNoroVirusPanel();
-		RotaVirusPanel = createRotaVirusPanel();
+		
+		LipidVirusPanel = createLipidVirusPanel(); //JPanel for Lipid Virus selection
+		NonLipidVirusPanel = createNonLipidVirusPanel(); //JPanel for Non Lipid Virus selection
+		
+		Covid19Panel = createCovid19Panel(); //JPanel for covid19
+		HIVPanel = createHIVPanel(); //JPanel for HIV
+		
+		NoroVirusPanel = createNoroVirusPanel(); //JPanel for Norovirus
+		RotaVirusPanel = createRotaVirusPanel(); //JPanel for Rotavirus
+		
+		//show main Menu
 		showMainMenu();
 	}
 
 	void showMainMenu() {
 		getContentPane().removeAll();
+		
+		//back ground picture for the mainMenu
+		BufferedImage myPicture;
+		try {
+			myPicture = ImageIO.read(new File("F:\\eclipse_workspace\\VirusDemo\\src\\Red-Cross.png"));
+			JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+			add(picLabel, BorderLayout.CENTER);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		add(createNorth(), BorderLayout.NORTH);
 		add(createSouth(), BorderLayout.SOUTH);
-		revalidate();
-		repaint();
 	}
 
+	//North Component for the menu bar
 	JPanel createNorth() {
 		JPanel north = new JPanel();
 		north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
@@ -60,6 +90,7 @@ public class VirusInfoGUI extends JFrame {
 		return north;
 	}
 	
+	//create menuBar in the North Component
 	JMenuBar createMenuBar() {
 		// TODO Auto-generated method stub
 		JMenu menu = new JMenu("Options");
@@ -69,10 +100,12 @@ public class VirusInfoGUI extends JFrame {
 		menu.add(Help);
 		menu.add(Back);
 		
+		//Help button for description of the use of the program
 		Help.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//message popping up using JOptionPane
 				JOptionPane.showMessageDialog(Help, "This application helps users learn about different viruses.\n\n" +
                         "Select a type of virus to see its structure and understand the infection process.\n\n" +
                 		"Select the Quiz option do participate in a fun quiz about viruses\n\n"+
@@ -81,13 +114,14 @@ public class VirusInfoGUI extends JFrame {
 			}
 		});
 		
+		//Back button to return to the main menu at any time
 		Back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showMainMenu();
 			}
 		});
 		
-		
+		//menu bar for storing the back button and the help button
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
 		menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -95,13 +129,6 @@ public class VirusInfoGUI extends JFrame {
 		
 		return menuBar;
 	}
-	
-	private void switchPanel(JPanel panel) {
-        center.removeAll();
-        center.add(panel, BorderLayout.CENTER);
-        center.revalidate();
-        center.repaint();
-    }
 	
 	JPanel createSouth() {
 		//getContentPane().removeAll();
@@ -159,6 +186,13 @@ public class VirusInfoGUI extends JFrame {
 		
 		return center;
 	}
+	
+	private void switchPanel(JPanel panel) {
+        center.removeAll();
+        center.add(panel, BorderLayout.CENTER);
+        center.revalidate();
+        center.repaint();
+    }
 
 	private JPanel createLipidVirusPanel() {
 		JButton covidButton;
@@ -235,7 +269,7 @@ public class VirusInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("SARS-CoV2's Origin and History");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 200);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -305,9 +339,33 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Step 1: attach
+		        JOptionPane.showMessageDialog(null, "Step 1: Attach\n" +
+		        		virus.getName() + " binds to the ACE2 receptor on respiratory epithelial cells using " + virus. getCapsid().getProteins().get(0));
+
+		        // Step 2: penetrate
+		        JOptionPane.showMessageDialog(null, "Step 2: Penetrate\n" +
+		        		virus.getName() + " fuse with the host cell membrane or endocytosis");
+
+		        // Step 3: replicate
+		        JOptionPane.showMessageDialog(null, "Step 3: Replicate\n" +
+		        		virus.getName() + "'s viral RNA is replicated and transcribed by the host cell machinery. The RNA-dependent RNA polymerase synthesizes new viral RNA");
+
+		        // Step 4: assemble
+		        JOptionPane.showMessageDialog(null, "Step 4: Assemble\n" +
+		        		virus.getName() + " assemble new virions in the endoplasmic reticulum and Golgi apparatus");
+
+		        // Step 5: release
+		        JOptionPane.showMessageDialog(null, "Step 5: Release\n" +
+		                "New virions are transported to the cell surface in vesicles and released by exocytosis to infect other cells");
+		        
+		        // Final Message
+		        JOptionPane.showMessageDialog(null, "This concludes the Sars-CoV2 infection process. Stay informed and take preventive measures.");
+		        
+				
 				virus.showInfectionProcess();
 				JFrame frame = new JFrame("SARS-CoV2's Infection Process");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 150);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -367,7 +425,7 @@ public class VirusInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("HIV's Origin and History");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 200);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -437,9 +495,33 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Step 1: attach
+		        JOptionPane.showMessageDialog(null, "Step 1: Attach\n" +
+		        		virus.getName() + " binds to the CD4 receptor on the surface of the target cell using " + virus.getCapsid().getProteins().get(1));
+
+		        // Step 2: penetrate
+		        JOptionPane.showMessageDialog(null, "Step 2: Penetrate\n" +
+		        		virus.getName() + " fuse with the host cell membrane");
+
+		        // Step 3: replicate
+		        JOptionPane.showMessageDialog(null, "Step 3: Replicate\n" +
+		        		virus.getName() + " reverse transcription of RNA into DNA, then integrate into host genome");
+
+		        // Step 4: assemble
+		        JOptionPane.showMessageDialog(null, "Step 4: Assemble\n" +
+		        		virus.getName() + " assemble new virions in the host cell");
+
+		        // Step 5: release
+		        JOptionPane.showMessageDialog(null, "Step 5: Release\n" +
+		                "New virions bud off from the host cell, acquiring a portion of the host cell membrane as their envelope, and go on to infect other cells");
+		        
+		        // Final Message
+		        JOptionPane.showMessageDialog(null, "This concludes the HIV infection process. Stay informed and take preventive measures.");
+		        
+		        //show text of the infection process
 				virus.showInfectionProcess();
 				JFrame frame = new JFrame("HIV's Infection Process");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 150);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -538,7 +620,7 @@ public class VirusInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("HIV's Origin and History");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 200);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -608,9 +690,32 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Step 1: attach
+		        JOptionPane.showMessageDialog(null, "Step 1: Attach\n" +
+		        		virus.getName() + " binds to histo-blood group antigens (HBGAs) on the surface of epithelial cells in the gastrointestinal tract");
+
+		        // Step 2: penetrate
+		        JOptionPane.showMessageDialog(null, "Step 2: Penetrate\n" +
+		        		virus.getName() + " enters the cell via endocytosis");
+
+		        // Step 3: replicate
+		        JOptionPane.showMessageDialog(null, "Step 3: Replicate\n" +
+		        		virus.getName() + "'s viral RNA-dependent RNA polymerase synthesizes a complementary negative-sense RNA, serving as a template for the production of new positive-sense RNA genomes");
+
+		        // Step 4: assemble
+		        JOptionPane.showMessageDialog(null, "Step 4: Assemble\n" +
+		        		virus.getName() + "'s viral proteins and genomes are assembled into virions in the cytoplasm");
+
+		        // Step 5: release
+		        JOptionPane.showMessageDialog(null, "Step 5: Release\n" +
+		                "Virions are released from the host cell, often leading to cell death and contributing to the symptoms of gastroenteritis");
+		        
+		        // Final Message
+		        JOptionPane.showMessageDialog(null, "This concludes the Norovirus infection process. Stay informed and take preventive measures.");
+		        
 				virus.showInfectionProcess();
 				JFrame frame = new JFrame("Norovirus's Infection Process");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 150);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -642,6 +747,7 @@ public class VirusInfoGUI extends JFrame {
 		return mainPanel;
 	}
 	
+	//RotaVirus Panel
 	private JPanel createRotaVirusPanel() {
 		JButton showOrigin;
 		JButton showStructure;
@@ -668,7 +774,7 @@ public class VirusInfoGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("Rotavirus's Origin and History");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 200);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				
@@ -738,9 +844,33 @@ public class VirusInfoGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Step 1: attach
+		        JOptionPane.showMessageDialog(null, "Step 1: Attach\n" +
+		        		virus.getName() + " attaches to host cell surface receptors using " + capsid.getProteins().get(1));
+
+		        // Step 2: penetrate
+		        JOptionPane.showMessageDialog(null, "Step 2: Penetrate\n" +
+		        		virus.getName() + " is then taken up by endocytosis");
+
+		        // Step 3: replicate
+		        JOptionPane.showMessageDialog(null, "Step 3: Replicate\n" +
+		        		virus.getName() + "'s viral mRNAs are translated by the host's ribosomes into viral proteins, the viral RNA polymerase replicates the viral RNA");
+
+		        // Step 4: assemble
+		        JOptionPane.showMessageDialog(null, "Step 4: Assemble\n" +
+		        		virus.getName() + "'s new viral particles are assembled in the cytoplasm");
+
+		        // Step 5: release
+		        JOptionPane.showMessageDialog(null, "Step 5: Release\n" +
+		                "Mature virions are released either by cell lysis or by budding from the host cell, causing cell damage and leading to the symptoms of gastroenteritis");
+		        
+		        // Final Message
+		        JOptionPane.showMessageDialog(null, "This concludes the Rotavirus infection process. Stay informed and take preventive measures.");
+		        
+				
 				virus.showInfectionProcess();
 				JFrame frame = new JFrame("Rotavirus's Infection Process");
-				frame.setSize(1024, 300);
+				frame.setSize(1024, 150);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				

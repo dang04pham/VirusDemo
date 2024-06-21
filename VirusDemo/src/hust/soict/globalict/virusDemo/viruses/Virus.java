@@ -13,7 +13,6 @@ public abstract class Virus {
 	protected boolean isLipidEnveloped;
 	protected int size;
 	protected String shape;
-	protected ArrayList<String> diseases;
 	protected String origin;
 	
 	public Virus(String name, String type, Capsid capsid, AcidNu acidNu, boolean isLipidEnveloped, int size, String shape) {
@@ -54,14 +53,6 @@ public abstract class Virus {
 	public String getShape() {
 		return shape;
 	}
-
-	public ArrayList<String> getDiseases() {
-		return diseases;
-	}
-	
-	public void setDiseases(String disease) {
-		diseases.add(disease);
-	}
 	
 	public void showStructure() {
 		
@@ -101,10 +92,5 @@ public abstract class Virus {
 		release();
 	}
 	
-	public void displayDiseases(ArrayList<String> diseases) {
-		for(int i = 0; i < diseases.size(); i++) {
-			System.out.println(diseases.get(i));
-		}
-	}
 }
 

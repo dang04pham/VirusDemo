@@ -24,7 +24,7 @@ public class RotaVirus extends NonLipidVirus{
 	}
 	
 	public void penetrate() {
-		System.out.println(getName() + "is then taken up by endocytosis");
+		System.out.println(getName() + " is then taken up by endocytosis");
 	}
 	
 	public void replicate() {
